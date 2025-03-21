@@ -51,9 +51,9 @@ void UHeroCombatComponent::OnHitTargetActor(AActor* HitActor)
 
 void UHeroCombatComponent::OnWeaponPulletFromTargetActor(AActor* InteractedActor)
 {
-	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+	/*UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
 		GetOwningPawn(),
 		WarriorGameplayTags::Player_Event_HitPause,
 		FGameplayEventData()
-	);
+	);*/
 }
