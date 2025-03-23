@@ -5,7 +5,10 @@
 #include "CoreMinimal.h"
 #include "AttributeSet.h"
 #include "AbilitySystem/WarriorAbilitySystemComponent.h"
+
 #include "WarriorAttributeSet.generated.h"
+
+class IPawnUIInterface;
 
 #define ATTRIBUTE_ACCESSORS(ClassName, PropertyName) \
 GAMEPLAYATTRIBUTE_PROPERTY_GETTER(ClassName, PropertyName) \
@@ -53,4 +56,8 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "Damage")
 	FGameplayAttributeData DamageTaken;
 	ATTRIBUTE_ACCESSORS(UWarriorAttributeSet, DamageTaken)
+
+private:
+	TWeakInterfacePtr<IPawnUIInterface> CachedPawnUIInterface;
+
 };
