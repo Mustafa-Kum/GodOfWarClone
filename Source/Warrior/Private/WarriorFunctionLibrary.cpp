@@ -9,6 +9,8 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "WarriorGameplayTags.h"
 
+#include "WarriorDebugHelper.h"
+
 UWarriorAbilitySystemComponent* UWarriorFunctionLibrary::NativeGetWarriorASCFromActor(AActor* InActor)
 {
 	check(InActor);
@@ -125,4 +127,17 @@ FGameplayTag UWarriorFunctionLibrary::ComputeHitReactDirectionTag(AActor* InAtta
 	}
 
 	return WarriorGameplayTags::Shared_Status_HitReact_Front;
+}
+
+bool UWarriorFunctionLibrary::IsValidBlock(AActor* InAttacker, AActor* InDefender)
+{
+	check(InAttacker && InDefender);
+
+	const float DotResult = FVector::DotProduct(InAttacker->GetActorForwardVector(), InDefender->GetActorForwardVector());
+
+	/*const FString DebugString = FString::Printf(TEXT("DotResult: %f %s"), DotResult, DotResult < -0.1f ? TEXT("Valid Block") : TEXT("InValid Block"));
+
+	Debug::Print(DebugString, DotResult < -0.1f ? FColor::Green : FColor::Red);*/
+
+	return DotResult < -0.1f ? true : false;
 }
