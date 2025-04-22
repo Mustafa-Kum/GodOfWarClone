@@ -19,7 +19,21 @@ void UWarriorAbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag& I
 			continue;
 		}
 
-		TryActivateAbility(AbilitySpec.Handle);
+		if (InInputTag.MatchesTag(WarriorGameplayTags::InputTag_Togglable))
+		{
+			if (AbilitySpec.IsActive())
+			{
+				CancelAbilityHandle(AbilitySpec.Handle);
+			}
+			else
+			{
+				TryActivateAbility(AbilitySpec.Handle);
+			}
+		}
+		else
+		{
+			TryActivateAbility(AbilitySpec.Handle);
+		}
 	}
 }
 
