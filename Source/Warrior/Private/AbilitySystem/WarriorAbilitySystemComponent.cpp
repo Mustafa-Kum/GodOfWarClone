@@ -19,16 +19,9 @@ void UWarriorAbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag& I
 			continue;
 		}
 
-		if (InInputTag.MatchesTag(WarriorGameplayTags::InputTag_Togglable))
+		if (InInputTag.MatchesTag(WarriorGameplayTags::InputTag_Togglable) && AbilitySpec.IsActive())
 		{
-			if (AbilitySpec.IsActive())
-			{
-				CancelAbilityHandle(AbilitySpec.Handle);
-			}
-			else
-			{
-				TryActivateAbility(AbilitySpec.Handle);
-			}
+			CancelAbilityHandle(AbilitySpec.Handle);
 		}
 		else
 		{
