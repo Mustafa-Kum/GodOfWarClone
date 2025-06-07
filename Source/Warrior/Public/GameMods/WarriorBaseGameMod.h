@@ -14,4 +14,6 @@ class WARRIOR_API AWarriorBaseGameMod : public AGameModeBase
 {
 	GENERATED_BODY()
 	
+public:
+	AWarriorBaseGameMod();
 };
