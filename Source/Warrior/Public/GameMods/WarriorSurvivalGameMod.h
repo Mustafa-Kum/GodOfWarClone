@@ -63,6 +63,9 @@ protected:
 private:
 	void SetCurrentSurvivalGameModState(EWarriorSurvivalGameModState InState);
 	bool HasFinishedAllWaves() const;
+	void PreLoadNextWaveEnemies();
+
+	FWarriorEnemyWaveSpawnerTableRow* GetCurrentWaveSpawnerTableRow() const;
 
 	UPROPERTY()
 	EWarriorSurvivalGameModState CurrentSurvivalGameModState;
@@ -90,4 +93,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WaveDefinition", meta = (AllowPrivateAccess = "true"))
 	float WaveCompletedWaitTime = 5.f;
+
+	UPROPERTY()
+	TMap< TSoftClassPtr < AWarriorEnemyCharacter >, UClass* > PreLoadedEnemyClassMap;
 };
