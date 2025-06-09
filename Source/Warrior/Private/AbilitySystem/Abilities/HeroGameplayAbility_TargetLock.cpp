@@ -20,10 +20,11 @@
 
 void UHeroGameplayAbility_TargetLock::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
 {
-	TryLockOnTarget();
-
-	InitTargetLockMovement();
-	InitTargetLockMappingContext();
+	if (TryLockOnTarget())
+	{
+		InitTargetLockMovement();
+		InitTargetLockMappingContext();
+	}
 
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 }
@@ -104,28 +105,32 @@ void UHeroGameplayAbility_TargetLock::SwitchTarget(const FGameplayTag& InSwitchD
 	}
 }
 
-void UHeroGameplayAbility_TargetLock::TryLockOnTarget()
+bool UHeroGameplayAbility_TargetLock::TryLockOnTarget()
 {
 	GetAvailableActorsToLock();
 
 	if (AvailableActorsToLock.IsEmpty())
 	{
 		CancelTargetLockAbility();
-
-		return;
+		
+		return false;
 	}
 
 	CurrentLockedActor = GetNearestTargetFromAvailableActors(AvailableActorsToLock);
 
 	if (CurrentLockedActor)
 	{
-		DrawTargetLockWidger();
+		DrawTargetLockWidget();
 
 		SetTargetLockWidgetPosition();
+
+		return true;
 	}
 	else
 	{
 		CancelTargetLockAbility();
+
+		return false;
 	}
 }
 
@@ -203,7 +208,7 @@ void UHeroGameplayAbility_TargetLock::GetAvailableActorsAroundTarget(TArray<AAct
 	}
 }
 
-void UHeroGameplayAbility_TargetLock::DrawTargetLockWidger()
+void UHeroGameplayAbility_TargetLock::DrawTargetLockWidget()
 {
 	if (!DrawnTargetLockWidget)
 	{
