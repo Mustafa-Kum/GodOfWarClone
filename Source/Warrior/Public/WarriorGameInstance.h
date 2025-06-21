@@ -5,6 +5,9 @@
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
 #include "GameplayTagContainer.h"
+#include "Engine/Engine.h"
+#include "RenderingThread.h"
+#include "ShaderCompiler.h"
 #include "WarriorGameInstance.generated.h"
 
 USTRUCT(BlueprintType)
@@ -25,7 +28,7 @@ struct FWarriorGameLevelSet
 };
 
 /**
- * 
+ *
  */
 UCLASS()
 class WARRIOR_API UWarriorGameInstance : public UGameInstance
@@ -34,13 +37,22 @@ class WARRIOR_API UWarriorGameInstance : public UGameInstance
 
 public:
 	virtual void Init() override;
-	
+
 protected:
 	virtual void OnPreLoadMap(const FString& MapName);
 	virtual void OnDestinationWorldLoaded(UWorld* LoadedWorld);
 
+	UFUNCTION()
+	void OnShaderCompilationComplete();
+
+	void PreloadShaders();
+	void WaitForShaderCompilation();
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TArray<FWarriorGameLevelSet> GameLevelSets;
+
+	bool bShadersCompiled;
+	FTimerHandle ShaderCompilationTimer;
 
 public:
 	UFUNCTION(BlueprintPure, meta = (GameplayTagFilter = "GameData.Level"))
