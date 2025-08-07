@@ -12,8 +12,6 @@ void UWarriorGameInstance::Init()
 {
 	Super::Init();
 
-	bShadersCompiled = false;
-
 	FCoreUObjectDelegates::PreLoadMap.AddUObject(this, &ThisClass::OnPreLoadMap);
 	FCoreUObjectDelegates::PostLoadMapWithWorld.AddUObject(this, &ThisClass::OnDestinationWorldLoaded);
 }
@@ -28,51 +26,11 @@ void UWarriorGameInstance::OnPreLoadMap(const FString& MapName)
 
 	GetMoviePlayer()->SetupLoadingScreen(LoadingScreenAttributes);
 
-	PreloadShaders();
 }
 
 void UWarriorGameInstance::OnDestinationWorldLoaded(UWorld* LoadedWorld)
 {
-	GetMoviePlayer()->StopMovie();
-	bShadersCompiled = false;
-}
-
-void UWarriorGameInstance::PreloadShaders()
-{
-	bShadersCompiled = false;
-
-	if (GShaderCompilingManager)
-	{
-		GShaderCompilingManager->FinishAllCompilation();
-	}
-
-	WaitForShaderCompilation();
-}
-
-void UWarriorGameInstance::WaitForShaderCompilation()
-{
-	if (GShaderCompilingManager && GShaderCompilingManager->GetNumRemainingJobs() > 0)
-	{
-		if (UWorld* World = GetWorld())
-		{
-			World->GetTimerManager().SetTimer(ShaderCompilationTimer, this, &ThisClass::WaitForShaderCompilation, 0.1f, false);
-		}
-		else
-		{
-			FTimerHandle TempTimer;
-			GetTimerManager().SetTimer(TempTimer, this, &ThisClass::WaitForShaderCompilation, 0.1f, false);
-		}
-	}
-	else
-	{
-		OnShaderCompilationComplete();
-	}
-}
-
-void UWarriorGameInstance::OnShaderCompilationComplete()
-{
-	bShadersCompiled = true;
-	GetMoviePlayer()->StopMovie();
+	//GetMoviePlayer()->StopMovie();
 }
 
 TSoftObjectPtr<UWorld> UWarriorGameInstance::GetGameLevelByTag(FGameplayTag InTag) const
@@ -91,4 +49,9 @@ TSoftObjectPtr<UWorld> UWarriorGameInstance::GetGameLevelByTag(FGameplayTag InTa
 	}
 
 	return TSoftObjectPtr<UWorld>();
+}
+
+void UWarriorGameInstance::StopLoadingScreen()
+{
+	GetMoviePlayer()->StopMovie();
 }

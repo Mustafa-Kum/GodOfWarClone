@@ -42,19 +42,13 @@ protected:
 	virtual void OnPreLoadMap(const FString& MapName);
 	virtual void OnDestinationWorldLoaded(UWorld* LoadedWorld);
 
-	UFUNCTION()
-	void OnShaderCompilationComplete();
-
-	void PreloadShaders();
-	void WaitForShaderCompilation();
-
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TArray<FWarriorGameLevelSet> GameLevelSets;
-
-	bool bShadersCompiled;
-	FTimerHandle ShaderCompilationTimer;
 
 public:
 	UFUNCTION(BlueprintPure, meta = (GameplayTagFilter = "GameData.Level"))
 	TSoftObjectPtr<UWorld> GetGameLevelByTag(FGameplayTag InTag) const;
+
+	UFUNCTION(BlueprintCallable)
+	void StopLoadingScreen();
 };

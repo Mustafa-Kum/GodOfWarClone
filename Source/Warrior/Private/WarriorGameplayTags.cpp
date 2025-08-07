@@ -18,7 +18,7 @@ namespace WarriorGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_MustBeHeld_Block, "InputTag.MustBeHeld.Block");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Togglable, "InputTag.Togglable");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Togglable_TargetLock, "InputTag.Togglable.TargetLock");
-	UE_DEFINE_GAMEPLAY_TAG(InputTag_Togglable_Rage, "InputTag.Togglable.Rage");
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_Togglable_Rage, "InputTag.Rage");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_SpecialWeaponAbility_Light, "InputTag.SpecialWeaponAbility.Light");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_SpecialWeaponAbility_Heavy, "InputTag.SpecialWeaponAbility.Heavy");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_PickUp_Stones, "InputTag.PickUp.Stones");
